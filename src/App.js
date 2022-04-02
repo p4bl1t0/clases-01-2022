@@ -1,25 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
 
-function App() {
+import BookItem from "./components/BookItem";
+
+const App = () => {
+  const bookDate = new Date(2021, 7, 21);
+  const bookTitle = "100 años de soledad";
+  const bookAuthor = "Gabriel Garcia Marquez";
+  const bookPageCount = 421;
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h2>Books Champion App</h2>
+      <p>¡Quiero leer libros!</p>
+      <BookItem
+        title={bookTitle}
+        dateRead={bookDate}
+        author={bookAuthor}
+        pageCount={bookPageCount}
+      />
     </div>
   );
-}
+};
 
 export default App;
