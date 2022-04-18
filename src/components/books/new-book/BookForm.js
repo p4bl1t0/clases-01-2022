@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import "./BookForm.css";
 
-const BookForm = () => {
+const BookForm = ({ onBookDataSaved }) => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [pageCount, setPageCount] = useState("");
@@ -24,20 +24,37 @@ const BookForm = () => {
     setReadDate(event.target.value);
   };
 
+  const submitHandler = (event) => {
+    event.preventDefault();
+    const bookData = {
+      title,
+      author,
+      pageCount,
+      dateRead: new Date(readDate).toISOString(),
+    };
+    // console.log(bookData);
+    onBookDataSaved(bookData);
+    setTitle("");
+    setAuthor("");
+    setPageCount("");
+    setReadDate("");
+  };
+
   return (
-    <form>
+    <form onSubmit={submitHandler}>
       <div className="new-book-controls">
         <div className="new-book-control">
           <label>Título</label>
-          <input onChange={changeTitleHandler} type="text" />
+          <input value={title} onChange={changeTitleHandler} type="text" />
         </div>
         <div className="new-book-control">
           <label>Autor</label>
-          <input onChange={changeAuthorHandler} type="text" />
+          <input value={author} onChange={changeAuthorHandler} type="text" />
         </div>
         <div className="new-book-control">
           <label>Páginas</label>
           <input
+            value={pageCount}
             onChange={changePageCountHandler}
             type="number"
             min="1"
@@ -47,6 +64,7 @@ const BookForm = () => {
         <div className="new-book-control">
           <label>¿Cuándo terminaste de leerlo?</label>
           <input
+            value={readDate}
             onChange={changeReadDateHandler}
             type="date"
             min="2019-01-01"

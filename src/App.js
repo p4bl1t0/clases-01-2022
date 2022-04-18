@@ -31,11 +31,16 @@ const App = () => {
     },
   ];
 
+  const bookAddedHandler = (bookData) => {
+    console.log("In App.js");
+    console.log(bookData);
+  };
+
   return (
     <div>
       <h2>Books Champion App</h2>
       <p>¡Quiero leer libros!</p>
-      <NewBook />
+      <NewBook onBookAdded={bookAddedHandler} />
       <Books books={books} />
     </div>
   );
