@@ -30,7 +30,7 @@ const BookForm = ({ onBookDataSaved }) => {
       title,
       author,
       pageCount,
-      dateRead: new Date(readDate).toISOString(),
+      dateRead: new Date(readDate),
     };
     // console.log(bookData);
     onBookDataSaved(bookData);

@@ -11,35 +11,20 @@ const Books = ({ books, children }) => {
     setSelectedYear(newYear);
   };
 
+  const booksMapped = books.map((book) => (
+    <BookItem
+      key={book.id}
+      title={book.title}
+      dateRead={book.dateRead}
+      author={book.author}
+      pageCount={book.pageCount}
+    />
+  ));
+
   return (
     <div>
       <BooksFilter onYearChanged={onYearChanged} year={selectedYear} />
-      <div className="books-container">
-        <BookItem
-          title={books[0].title}
-          dateRead={books[0].dateRead}
-          author={books[0].author}
-          pageCount={books[0].pageCount}
-        />
-        <BookItem
-          title={books[1].title}
-          dateRead={books[1].dateRead}
-          author={books[1].author}
-          pageCount={books[1].pageCount}
-        />
-        <BookItem
-          title={books[2].title}
-          dateRead={books[2].dateRead}
-          author={books[2].author}
-          pageCount={books[2].pageCount}
-        />
-        <BookItem
-          title={books[3].title}
-          dateRead={books[3].dateRead}
-          author={books[3].author}
-          pageCount={books[3].pageCount}
-        />
-      </div>
+      <div className="books-container">{booksMapped}</div>
     </div>
   );
 };
