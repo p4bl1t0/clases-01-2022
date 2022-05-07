@@ -23,7 +23,7 @@ const BookItem = ({ author, title, dateRead, pageCount }) => {
 
   return (
     <BookCard className="book-item-container">
-      <h3>{newTitle}</h3>
+      <h1>{newTitle}</h1>
       <h3>{author}</h3>
       <ReadDate dateRead={dateRead} />
       <p>{pageCount} páginas</p>
