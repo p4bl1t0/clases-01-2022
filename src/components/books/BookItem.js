@@ -15,7 +15,6 @@ const BookItem = ({ author, title, dateRead, pageCount }) => {
   //  return newState
   // comment
   // a = 1
-  // b = 2
 
   const clickHandler = () => {
     console.log("Clicked!!");
