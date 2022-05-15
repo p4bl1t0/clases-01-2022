@@ -13,8 +13,8 @@ const BookItem = ({ author, title, dateRead, pageCount }) => {
   // const newState = [...state];
   //   newState[0] = updatedTitle
   //  return newState
+  // comment
   // a = 1
-  // b = 2
 
   const clickHandler = () => {
     console.log("Clicked!!");
@@ -23,7 +23,7 @@ const BookItem = ({ author, title, dateRead, pageCount }) => {
 
   return (
     <BookCard className="book-item-container">
-      <h2>{newTitle}</h2>
+      <h3>{newTitle}</h3>
       <h3>{author}</h3>
       <ReadDate dateRead={dateRead} />
       <p>{pageCount} páginas</p>
