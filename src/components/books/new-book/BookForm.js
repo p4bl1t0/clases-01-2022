@@ -17,6 +17,8 @@ const subcategories = [
   { id: 6, name: 'Historia', categoryId: 2 }
 ];
 
+let previousValue = false;
+
 const BookForm = ({ onBookDataSaved }) => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
@@ -31,14 +33,10 @@ const BookForm = ({ onBookDataSaved }) => {
   const [subCategoriesFiltered, setSubCategoriesFiltered] = useState([]);
   const reviewRef = useRef(null);
   const [errors, setErrors] = useState(null);
+  const [bookSugestions, setBookSugestions] = useState(null);
+  const [bookSelected, setBookSelected] = useState(false);
 
-  useEffect(() => {
-    // solo una vez, cuando el componente monta
-    // http://openlibrary.org/search.json?q=the+lord+of+the+rings
-    fetch('http://openlibrary.org/search.json?q=lean+startup')
-    .then(response => response.json())
-    .then(data => console.log(data));
-  }, []);
+
 
   useEffect(() => {
     // cada vez que se actualiza el valor de status
@@ -54,8 +52,42 @@ const BookForm = ({ onBookDataSaved }) => {
     }
   }, [title, author, readDate]);
 
+  useEffect(() => {
+    if (title && title.length > 3) {
+      console.log('title change', previousValue, title);
+      const bookFetch = () => {
+        let apiTitle = title;
+        apiTitle = apiTitle.replace(/\s+/gi, '+'); 
+        console.log('valor', apiTitle);
+    
+        fetch('http://openlibrary.org/search.json?q=' + apiTitle)
+        .then(response => response.json()) 
+        .then(data => {
+          console.log('book data', data);
+          setBookSugestions(data.docs);
+        }).catch((err) => {
+          // reject
+          // errores then function
+        });
+      }
+      previousValue  = title;
+
+      setTimeout(() => {
+        if (previousValue === title && !bookSelected) {
+          bookFetch();
+        } else {
+          // el valor está cambiando
+        }
+      }, 1000);
+
+
+    }
+  }, [title, bookSelected])
+
   const changeTitleHandler = (event) => {
     setTitle(event.target.value);
+
+    
   };
 
   const changeAuthorHandler = (event) => {
@@ -140,6 +172,7 @@ const BookForm = ({ onBookDataSaved }) => {
       return;
     }
     onBookDataSaved(bookData);
+    // fetch('url servidor', { method: 'POST' })
     setTitle("");
     setAuthor("");
     setPageCount("");
@@ -154,10 +187,23 @@ const BookForm = ({ onBookDataSaved }) => {
       <div className="new-book-controls">
         <div className="new-book-control">
           <label>Título</label>
-          <input value={title} onChange={changeTitleHandler} type="text" />
+          <input list="book-suggestion" value={title} onChange={changeTitleHandler} type="text" />
 
           { errors?.title &&
             <div className="red">{ errors.title }</div>
+          }
+          { !bookSelected && bookSugestions?.length > 0 && 
+            <datalist id="book-suggestion">
+              {
+                bookSugestions.map((item, index) => (
+                  <option key={index} onClick={() => {
+                    setTitle(item.title);
+                    setBookSelected(true);
+                  }} value={item.title}>{ item.title }</option>
+                ))
+
+              }
+            </datalist>
           }
         </div>
         <div className="new-book-control">
