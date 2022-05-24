@@ -155,7 +155,7 @@ const BookForm = ({ onBookDataSaved }) => {
       pageCount,
       dateRead: new Date(readDate),
       readStatus,
-      readingProgress, // REVIEW 'object short notation'
+      readingProgress,
       review,
       rating
     };

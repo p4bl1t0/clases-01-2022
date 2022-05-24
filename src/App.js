@@ -4,6 +4,10 @@ import "./App.css";
 
 import Books from "./components/books/Books";
 import NewBook from "./components/books/new-book/NewBook";
+import Login from "./components/auth/Login";
+
+// REVIEW: 7. custom hook
+import AuthContextProvider, { useAuth } from "./components/context/AuthContextProvider";
 
 const DUMMY_BOOKS = [
   {
@@ -36,6 +40,8 @@ const DUMMY_BOOKS = [
   },
 ];
 
+
+
 const App = () => {
   const [books, setBooks] = useState(DUMMY_BOOKS);
 
@@ -44,14 +50,26 @@ const App = () => {
     setBooks(newBookArray);
   };
 
+  // const auth = useContext(AuthContext);
+  const auth = useAuth();
+
   return (
-    <div>
-      <h2>Books Champion App</h2>
-      <p>¡Quiero leer libros!</p>
-      <NewBook onBookAdded={bookAddedHandler} />
-      <Books books={books} />
-    </div>
+        
+        <div>
+          <h2>Books Champion App</h2>
+          <p>¡Quiero leer libros!</p>
+          { auth.currentUser &&
+            <>
+              <NewBook onBookAdded={bookAddedHandler} />
+              <Books books={books} />
+            </>
+          }
+          { !auth.currentUser && 
+            <Login />
+          }
+        </div>
   );
 };
 
 export default App;
+

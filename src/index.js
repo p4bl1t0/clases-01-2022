@@ -3,6 +3,6 @@ import ReactDOM from "react-dom";
 
 import "./index.css";
 
-import App from "./App";
+import AppWrappers from "./AppWrappers";
 
-ReactDOM.render(<App />, document.getElementById("root"));
+ReactDOM.render(<AppWrappers />, document.getElementById("root"));
