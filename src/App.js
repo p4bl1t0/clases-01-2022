@@ -1,13 +1,13 @@
-import { useState } from "react";
+import React, { useCallback, useMemo, useState, Suspense } from "react";
 
 import "./App.css";
 
-import Books from "./components/books/Books";
 import NewBook from "./components/books/new-book/NewBook";
 import Login from "./components/auth/Login";
 
 // REVIEW: 7. custom hook
 import AuthContextProvider, { useAuth } from "./components/context/AuthContextProvider";
+import SlowComponent, {MemoFastComponent, slowFn} from "./components/memoize/SlowComponent";
 
 const DUMMY_BOOKS = [
   {
@@ -40,7 +40,7 @@ const DUMMY_BOOKS = [
   },
 ];
 
-
+const BooksLazy = React.lazy(() => import("./components/books/Books"))
 
 const App = () => {
   const [books, setBooks] = useState(DUMMY_BOOKS);
@@ -50,20 +50,38 @@ const App = () => {
     setBooks(newBookArray);
   };
 
+
   // const auth = useContext(AuthContext);
   const auth = useAuth();
+  const param = 'slow';
+  const [ count, setCount ] = useState(0);
 
+  const [ a, setA ] = useState(1);
+  const [ b, setB ] = useState(2);
+  // const slowValueSum = slowFn(a,b);
+  const memoFastValue = useMemo(() => slowFn(a,b), [a,b]);
+  const logger = useCallback((log) => console.log(log), []);
   return (
         
         <div>
           <h2>Books Champion App</h2>
           <p>¡Quiero leer libros!</p>
-          { auth.currentUser &&
-            <>
+          { true && 
+            <Suspense fallback={<div>Loading</div>}>
               <NewBook onBookAdded={bookAddedHandler} />
-              <Books books={books} />
-            </>
+              <BooksLazy books={books} />
+            </Suspense>
           }
+          <button onClick={() => { 
+            setCount(count + 1);
+            if (count > 3) {
+              setA(2);
+            }
+          }}>Re-render {count} // { memoFastValue }</button>
+          <MemoFastComponent 
+            value={count > 5 ? 're-renderizar' : param} 
+            onLog={logger}
+          />
           { !auth.currentUser && 
             <Login />
           }

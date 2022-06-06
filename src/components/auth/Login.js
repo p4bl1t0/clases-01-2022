@@ -13,7 +13,7 @@ export default function Login () {
     return (
         <div>
             <label>Email</label>
-            <input value={email} onChange={(event) => { setEmail(event.target.value) }} type="text" />
+            <input  value={email} onChange={(event) => { setEmail(event.target.value) }} type="text" />
             <label>Password</label>
             <input value={password} onChange={(event) => { setPassword(event.target.value) }} type="password" />
             {   auth.waitingLogin &&

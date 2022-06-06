@@ -1,7 +1,7 @@
 import "./Books.css";
 
 import BookItem from "./BookItem";
-import { useState } from "react";
+import React, { useState } from "react";
 import BooksFilter from "../filter/BookFilter";
 import { useAuth, useCapitalizeName } from "../context/AuthContextProvider";
 
@@ -11,7 +11,9 @@ const Books = ({ books, children }) => {
   const auth = useAuth();
 
   const onYearChanged = (newYear) => {
-    setSelectedYear(newYear);
+
+    setSelectedYear(newYear); // asincronico
+    
   };
 
   const upperName = useCapitalizeName(auth.currentUser?.name);
@@ -39,6 +41,7 @@ const Books = ({ books, children }) => {
         ) : (
           booksMapped
         )}
+
       </div>
     </div>
   );
